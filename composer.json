@@ -1,0 +1,29 @@
+{
+    "name": "grantholle/api-resource-detection",
+    "description": "Detect API Resources for your Eloquent models.",
+    "type": "library",
+    "require": {
+        "illuminate/http": "^6.0|^7.0|^8.0",
+        "illuminate/database": "^6.0|^7.0|^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "GrantHolle\\Http\\Resources\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GrantHolle\\Http\\Tests\\": "tests"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Grant Holle",
+            "email": "hollegrant@gmail.com"
+        }
+    ]
+}
