@@ -49,7 +49,11 @@ trait HasResource
         $resource = static::resolveResourceName($model);
 
         if (($parameters[0] ?? null) instanceof Collection) {
-            return $resource::collection($parameters[0]);
+            $resourceCollection = static::resolveResourceCollectionName($model);
+
+            return class_exists($resourceCollection)
+                ? new $resourceCollection(...$parameters)
+                : $resource::collection($parameters[0]);
         }
 
         return $resource::make(...$parameters);
@@ -80,11 +84,7 @@ trait HasResource
     public static function resolveResourceName(string $modelName)
     {
         $resolver = JsonResource::$resourceNameResolver ?: function (string $modelName) {
-            $modelName = class_basename($modelName);
-            $resourceNamespace = static::resolveResourceNamespace();
-            $resourceName = Str::endsWith($resourceNamespace, '\\')
-                ? $resourceNamespace.$modelName
-                : $resourceNamespace.'\\'.$modelName;
+            $resourceName = $resourceName = static::resolveResoureBasename($modelName);
 
             return class_exists($resourceName)
                 ? $resourceName
@@ -92,6 +92,41 @@ trait HasResource
         };
 
         return $resolver($modelName);
+    }
+
+    /**
+     * Get the resource name for the given model name.
+     *
+     * @param  string  $modelName
+     * @return string
+     */
+    public static function resolveResourceCollectionName(string $modelName)
+    {
+        $resolver = JsonResource::$resourceCollectionNameResolver ?: function (string $modelName) {
+            $resourceName = static::resolveResoureBasename($modelName) . 'Collection';
+
+            return class_exists($resourceName)
+                ? $resourceName
+                : $resourceName.'Resource';
+        };
+
+        return $resolver($modelName);
+    }
+
+    /**
+     * Gets the resource basename based on the namespace.
+     *
+     * @param string $modelName
+     * @return string
+     */
+    protected static function resolveResoureBasename(string $modelName)
+    {
+        $modelName = class_basename($modelName);
+        $resourceNamespace = static::resolveResourceNamespace();
+
+        return Str::endsWith($resourceNamespace, '\\')
+            ? $resourceNamespace.$modelName
+            : $resourceNamespace.'\\'.$modelName;
     }
 
     /**

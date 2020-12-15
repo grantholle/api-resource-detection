@@ -59,6 +59,8 @@ $users = User::all();
 User::resource($users);
 ```
 
+This will automatically look for a `UserCollection` or `UserCollectionResource` resource class. If none is found it will default to calling the `collection()` function on the standard resource class.
+
 If your application has a different namespace other than the default resource namespace, you can tell it to use a different namespace for your resources.
 
 In a service provider,
@@ -71,7 +73,7 @@ public function boot() {
 }
 ```
 
-You can also change how the resources is guessed and return a new class name based on the model. By default, it looks for your model name or model name with the `Resource` suffix in the default resource namespace.
+You can also change how the resources is guessed and return a new class name based on the model. By default, it looks for your model name or model name with the `Resource` suffix in the default resource namespace. You can also customize how collections are resolved.
 
 ```php
 public function boot() {
@@ -81,6 +83,14 @@ public function boot() {
         // This will return a resource with the class name
         // ModelApiResource in the `My\Resource\Namespace` namespace.
         return 'My\\Resource\\Namespace\\' . $modelName . 'ApiResource';
+    });
+    
+    \GrantHolle\Http\Resources\JsonResource::guessResourceCollectionNamesUsing(function ($modelClass) {
+        $modelName = class_basename($modelClass);
+        
+        // This will return a resource with the class name
+        // ModelCollectionApiResource in the `My\Resource\Namespace` namespace.
+        return 'My\\Resource\\Namespace\\' . $modelName . 'CollectionApiResource';
     });
 }
 ```

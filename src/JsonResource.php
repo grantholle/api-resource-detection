@@ -12,6 +12,13 @@ class JsonResource
     public static $resourceNameResolver;
 
     /**
+     * The resource collection name resolver.
+     *
+     * @var callable
+     */
+    public static $resourceCollectionNameResolver;
+
+    /**
      * The resource namespace resolver.
      *
      * @var callable
@@ -19,7 +26,7 @@ class JsonResource
     public static $resourceNamespaceResolver;
 
     /**
-     * Specify the callback that should be invoked to guess factory names based on dynamic relationship names.
+     * Specify the callback that should be invoked to guess the resource name.
      *
      * @param callable|null $callback
      * @return void
@@ -27,6 +34,17 @@ class JsonResource
     public static function guessResourceNamesUsing(callable $callback = null)
     {
         static::$resourceNameResolver = $callback;
+    }
+
+    /**
+     * Specify the callback that should be invoked to guess resource collection names.
+     *
+     * @param callable|null $callback
+     * @return void
+     */
+    public static function guessResourceCollectionNamesUsing(callable $callback = null)
+    {
+        static::$resourceCollectionNameResolver = $callback;
     }
 
     /**
