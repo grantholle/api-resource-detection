@@ -3,11 +3,11 @@
     "description": "Detect API Resources for your Eloquent models.",
     "type": "library",
     "require": {
-        "illuminate/http": "^6.0|^7.0|^8.0|^9.0",
-        "illuminate/database": "^6.0|^7.0|^8.0|^9.0"
+        "illuminate/http": "^6.0|^7.0|^8.0|^9.0|^10.0",
+        "illuminate/database": "^6.0|^7.0|^8.0|^9.0|^10.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.6"
+        "orchestra/testbench": "^8.0"
     },
     "autoload": {
         "psr-4": {

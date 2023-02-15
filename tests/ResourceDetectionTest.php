@@ -100,8 +100,8 @@ class ResourceDetectionTest extends TestCase
             (new User)->toResource();
         } catch (\Throwable $e) {
             $this->assertStringContainsStringIgnoringCase(
-                "Class 'App\Http\Resources\UserResource' not found",
-                $e->getMessage()
+                'Class "App\Http\Resources\UserResource" not found',
+                strtolower($e->getMessage())
             );
         }
     }
